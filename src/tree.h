@@ -9,7 +9,8 @@ class Tree
     private:
         Node* root;
         int nodesExpanded;
-        int nodesVisited;
+        int nodeSeen;
+        
         
         // can optimize with hashmap of each node in tree to avoid duplicates
     public:

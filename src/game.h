@@ -13,7 +13,11 @@ class Game
     public:
         Game(Node *);
         Game(Node *, Node *);
-        ~Game();
+        ~Game() 
+        {
+            delete initial;
+            delete goal;
+        }
         void search_Euclidean(Node *);
         void search_Misplace(Node *);
         void search_UCS(Node *);
