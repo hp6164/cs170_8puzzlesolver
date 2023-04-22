@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/solver.dir/main.cpp.o CMakeFiles/solver.dir/src/game.cpp.o CMakeFiles/solver.dir/src/tree.cpp.o CMakeFiles/solver.dir/src/node.cpp.o -o solver 
