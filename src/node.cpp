@@ -2,11 +2,16 @@
 
 using namespace std;
 
-Node::Node(vector<vector<int>> initTable, Node* p)
+Node::Node(vector<vector<int>> initTable, Node* p)//use this to create a child node
 {
     try
     {
         parent = p;
+        upMove = nullptr;
+        downMove = nullptr;
+        rightMove = nullptr;
+        downMove = nullptr;
+
         board = initTable;
         for(int i = 0; i < initTable.size(); i++)
         {
@@ -29,12 +34,50 @@ Node::Node(vector<vector<int>> initTable, Node* p)
     {
         std::cerr << e.what() << '\n';
     }
-    
-    
-}
-Node::Node()
+}//end of node constuctor
+
+Node::Node(vector<vector<int>> initTable)// use this to make root node
+{
+    try
+    {
+        parent = nullptr;
+        upMove = nullptr;
+        downMove = nullptr;
+        rightMove = nullptr;
+        downMove = nullptr;
+
+        board = initTable;
+        for(int i = 0; i < initTable.size(); i++)
+        {
+            for(int j = 0; j < initTable.at(i).size(); j++)
+            {
+                if(initTable.at(i).at(j) == 0)
+                {
+                    zero_col = j;
+                    zero_row = i;
+                    break;
+                }//end of if that finds 0 positon
+            }//end of inner loop
+        }//end of outer loop
+        if(zero_col < 0 || zero_row < 0)
+        {
+            throw invalid_argument("Not a valid input");
+        }
+    }//end of try
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}//end of node constuctor
+
+Node::Node()//default input
 {
     parent = nullptr;
+    upMove = nullptr;
+    downMove = nullptr;
+    rightMove = nullptr;
+    downMove = nullptr;
+
     board = { {1, 0, 3}, 
               {4, 2, 6},
               {7, 5, 8} };
@@ -42,10 +85,19 @@ Node::Node()
     zero_row = 0;
 }
 
+Node::Node(Node &temp)//#TODO come back to this later
+{
+    parent = temp.parent;
+    board = temp.board;
+    zero_col = temp.zero_col;
+    zero_row = temp.zero_row;
+}//end of copy Consturctor
+
 Node::~Node()
 {
     delete parent;
 }
+
 
 bool Node::tryUp()
 {

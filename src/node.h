@@ -12,20 +12,32 @@ class Node
 {
     private:
         Node* parent;
-        ~Node();
         vector<vector<int>> board;
         int zero_row = -1;
         int zero_col = -1;
-
+        Node* rightMove;
+        Node* leftMove;
+        Node* upMove;
+        Node* downMove;
     public:
         Node();
+        ~Node();
         Node(vector<vector<int>>, Node*);
+        Node(vector<vector<int>>);
+        Node(Node &);//copy constuctor
+        
+        inline bool operator==(const Node* rhs) 
+        {
+            if(this->board == rhs->board)
+                return true;
+            return false;
+        }
+
         //operators
         bool tryUp();
         bool tryDown();
         bool tryRight();
         bool tryLeft();
-        
         void printNode();
 };//end of node class
 
