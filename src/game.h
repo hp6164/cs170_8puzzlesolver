@@ -1,3 +1,4 @@
+
 #ifndef __GAME_H
 #define __GAME_H
 
@@ -18,9 +19,9 @@ class Game
             delete initial;
             delete goal;
         }
-        void search_Euclidean(Node *);
-        void search_Misplace(Node *);
-        void search_UCS(Node *);
+        void search_Euclidean();
+        void search_Misplace();
+        void search_UCS();
 
 };
 
