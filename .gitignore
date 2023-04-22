@@ -2,3 +2,9 @@ a.exe
 mainEdgar.cpp
 .vscode/settings.json
 .vscode/c_cpp_properties.json
+*.cmake
+CMakeCache.txt
+CMakeFiles/
+bin/
+lib/
+*.o

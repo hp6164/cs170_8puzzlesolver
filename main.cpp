@@ -49,7 +49,29 @@ int main()
                     cout << "Error!" << endl;
                 }
                 else{
-                    cout << "Passed" << endl;
+                    cout << "Enter your choice of algorithm" << endl;
+                    cout << "1  Unitform Cost Search" << endl;
+                    cout << "2  A* with the Misplaced Tile heuristic" << endl;
+                    cout << "3  A* with the Euclidean distance heuristic" << endl;
+                    cin>> temp;
+                    while (temp < 1 || temp > 3)
+                    {
+                        cout << "Invalid Selction" << endl;
+                        cout << "Enter your choice of algorithm" << endl;
+                        cout << "1  Unitform Cost Search" << endl;
+                        cout << "2  A* with the Misplaced Tile heuristic" << endl;
+                        cout << "3  A* with the Euclidean distance heuristic" << endl;
+                        cin>> temp;
+                    }
+                    switch(temp)
+                    {
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                    }
                 }
             break;
     }
