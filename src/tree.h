@@ -10,11 +10,11 @@ class Tree
         Node* root;
         int nodesExpanded;
         int nodeSeen;
-        
+
         
         // can optimize with hashmap of each node in tree to avoid duplicates
     public:
-        Tree();
+        Tree(Node *);
 };
 
 #endif

@@ -15,7 +15,10 @@ class Node
         vector<vector<int>> board;
         int zero_row = -1;
         int zero_col = -1;
-
+        Node* rightMove;
+        Node* leftMove;
+        Node* upMove;
+        Node* downMove;
     public:
         Node();
         ~Node();

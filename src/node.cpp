@@ -2,11 +2,16 @@
 
 using namespace std;
 
-Node::Node(vector<vector<int>> initTable, Node* p)
+Node::Node(vector<vector<int>> initTable, Node* p)//use this to create a child node
 {
     try
     {
         parent = p;
+        upMove = nullptr;
+        downMove = nullptr;
+        rightMove = nullptr;
+        downMove = nullptr;
+
         board = initTable;
         for(int i = 0; i < initTable.size(); i++)
         {
@@ -31,11 +36,16 @@ Node::Node(vector<vector<int>> initTable, Node* p)
     }
 }//end of node constuctor
 
-Node::Node(vector<vector<int>> initTable)
+Node::Node(vector<vector<int>> initTable)// use this to make root node
 {
     try
     {
         parent = nullptr;
+        upMove = nullptr;
+        downMove = nullptr;
+        rightMove = nullptr;
+        downMove = nullptr;
+
         board = initTable;
         for(int i = 0; i < initTable.size(); i++)
         {
@@ -60,9 +70,14 @@ Node::Node(vector<vector<int>> initTable)
     }
 }//end of node constuctor
 
-Node::Node()
+Node::Node()//default input
 {
     parent = nullptr;
+    upMove = nullptr;
+    downMove = nullptr;
+    rightMove = nullptr;
+    downMove = nullptr;
+
     board = { {1, 0, 3}, 
               {4, 2, 6},
               {7, 5, 8} };
@@ -70,7 +85,7 @@ Node::Node()
     zero_row = 0;
 }
 
-Node::Node(Node &temp)
+Node::Node(Node &temp)//#TODO come back to this later
 {
     parent = temp.parent;
     board = temp.board;
