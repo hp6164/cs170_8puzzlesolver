@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/test.dir/unittest.cpp.o CMakeFiles/test.dir/src/game.cpp.o CMakeFiles/test.dir/src/tree.cpp.o CMakeFiles/test.dir/src/node.cpp.o -o test  lib/libgtest.a 
