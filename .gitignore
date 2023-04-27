@@ -8,3 +8,4 @@ CMakeFiles/
 bin/
 lib/
 *.o
+.vscode/settings.json

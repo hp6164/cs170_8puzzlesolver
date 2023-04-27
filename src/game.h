@@ -12,16 +12,20 @@ class Game
         Node* initial;
         Node* goal;
     public:
-        Game(Node *);
+        // Game(Node *);
+        Game();
+        Game(vector<vector<int>>);
         Game(Node *, Node *);
         ~Game() 
         {
             delete initial;
             delete goal;
         }
-        void search_Euclidean();
-        void search_Misplace();
-        void search_UCS();
+        bool search_Euclidean();
+        bool search_Misplace();
+        bool search_UCS();
+
+        void printSolutionFound(Node*);
 
 };
 
