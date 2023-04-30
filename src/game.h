@@ -33,6 +33,7 @@ class Game
         bool search_UCS();
 
         void printSolutionFound(Node*);
+        
 
 };
 
