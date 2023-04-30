@@ -2,6 +2,8 @@
 #include <vector>
 #include <cmath>
 
+#include "src/game.h"
+
 using namespace std;
 
 vector<int> numberbank;
@@ -14,6 +16,7 @@ bool findnum(int n);
 
 int main()
 {
+    Game* g;
     int option = 0, temp = 0;
 
     //Puzzle solver
@@ -36,6 +39,33 @@ int main()
     switch (option)
     {
         case 1:
+                g = new Game();
+
+                cout << "Enter your choice of algorithm" << endl;
+                    cout << "1  Unitform Cost Search" << endl;
+                    cout << "2  A* with the Misplaced Tile heuristic" << endl;
+                    cout << "3  A* with the Euclidean distance heuristic" << endl;
+                    cin>> temp;
+                    while (temp < 1 || temp > 3)
+                    {
+                        cout << "Invalid Selction" << endl;
+                        cout << "Enter your choice of algorithm" << endl;
+                        cout << "1  Unitform Cost Search" << endl;
+                        cout << "2  A* with the Misplaced Tile heuristic" << endl;
+                        cout << "3  A* with the Euclidean distance heuristic" << endl;
+                        cin>> temp;
+                    }
+                    switch(temp)
+                    {
+                        case 1:
+                            g->search_UCS();
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                    }
+
             break;
         
         case 2: cout << "Enter your puzzle, use a zero to represent the blank" << endl;
@@ -49,6 +79,7 @@ int main()
                     cout << "Error!" << endl;
                 }
                 else{
+                    g=new Game(table);
                     cout << "Enter your choice of algorithm" << endl;
                     cout << "1  Unitform Cost Search" << endl;
                     cout << "2  A* with the Misplaced Tile heuristic" << endl;
@@ -66,6 +97,7 @@ int main()
                     switch(temp)
                     {
                         case 1:
+                            g->search_UCS();
                             break;
                         case 2:
                             break;
