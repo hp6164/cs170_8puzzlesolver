@@ -372,7 +372,10 @@ string Node::createHash()
     {
         for(int i : v)
         {
-            hash.push_back(to_string(i).at(0));
+            string temp = to_string(i);
+            for(char c : temp)
+                hash.push_back(c);
+            hash.push_back('.');
         }
     }
     return hash;
