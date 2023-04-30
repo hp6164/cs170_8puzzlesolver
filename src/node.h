@@ -17,6 +17,8 @@ class Node
         int zero_row = -1;
         int zero_col = -1;
         int cost = -1;
+        double euclid_heuristic = -1;
+        int tile_heuristic = -1;
 
         validMoves lastMove;
 
@@ -74,6 +76,14 @@ class Node
         void setCost(int newCost) { cost = newCost; }
     // get cost of node;
         int getCost() {return cost;}
+
+
+    // set heuristics
+    void setEuclidHeuristic(double d) {euclid_heuristic = d;}
+    void setTileHeuristic(double d) {tile_heuristic = d;}
+    // get heuristics
+    double getEuclidHeuristic() { return euclid_heuristic; }
+    double getTileHeurisitic() { return tile_heuristic; }
 
 
     //prints all nodes data
