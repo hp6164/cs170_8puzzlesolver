@@ -12,7 +12,7 @@ Game::Game()
 Game::Game(vector<vector<int>> start)
 {
     initial = new Node(start);
-    goal  = new Node({ {1, 2, 3}, {4, 5, 6}, {7, 8, 0} } );
+    goal  = new Node({ {1, 2, 3}, {4, 5, 6}, {7, 8, 0} } ); //#TODO fix it so it automatically creates a goal state based on the initial board
 }//end of constructor
 
 Game::Game(Node * start, Node * end)
