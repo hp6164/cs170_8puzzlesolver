@@ -11,8 +11,12 @@ class Game
     private:
         Node* initial;
         Node* goal;
+
+        // Tree* tree_ucs;
+        // Tree* tree_euclidian;
+        // Tree* tree_tile;
+
     public:
-        // Game(Node *);
         Game();
         Game(vector<vector<int>>);
         Game(Node *, Node *);
@@ -20,6 +24,9 @@ class Game
         {
             delete initial;
             delete goal;
+            // delete tree_ucs;
+            // delete tree_euclidian;
+            // delete tree_tile;
         }
         bool search_Euclidean();
         bool search_Misplace();
