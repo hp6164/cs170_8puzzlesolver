@@ -145,6 +145,8 @@ bool Game::search_UCS()
     }//end of while
 
     cout<<"frontier is empty"<<endl;
+    t->stopTime();
+    t->printStats();
     return false;
 }
 
@@ -307,6 +309,8 @@ bool Game::search_Euclidean()
     }
 
     cout<<"frontier is empty"<<endl;
+    t->stopTime();
+    t->printStats();
     return false;
 }
 
@@ -317,7 +321,7 @@ bool Game::search_Misplace()
     t->startTime();
     priority_queue<Node*, vector<Node*>, compareNodes> frontier;//initialize the frontier with custom comparison operator
 
-    t->getRoot()->calculateEuclidHeuristic(goal->getBoard());
+    t->getRoot()->calculateTileHeuristic(goal->getBoard());
     frontier.push(t->getRoot());
     
     vector<Node*> explored;//keep track of boards you have already explored
@@ -360,7 +364,7 @@ bool Game::search_Misplace()
                     temp->calculateEuclidHeuristic(t->getGoal()->getBoard()); //give the child an estimation
                     curr->addUpChild(temp);     //add it as the correct child of curr
                     t->addNodeToSeen(temp);     //add it to the hashmap to make it easy to find
-                    cout<<"\t add up: "<<endl<<temp<<"Estimate: "<<temp->getEstimation()<<"\t Cost" <<temp->getCost()<<endl;
+                    // cout<<"\t add up: "<<endl<<temp<<"Estimate: "<<temp->getEstimation()<<"\t Cost" <<temp->getCost()<<endl;
                     t->increaseNodeSeen();      //document that we found a new board combination
                     frontier.push(temp);        //add it to frontier
                     
@@ -371,7 +375,7 @@ bool Game::search_Misplace()
                     Node * retrieveNode = t->returnNodeByHash(temp->createHash());
                     if(retrieveNode->getCost() > temp->getCost())
                     {
-                        cout<<"Should not run unless more optimal path was found"<<endl;
+                        cout<<"Should not run unless more optimal path was found"<<temp->createHash()<<endl;
                         retrieveNode->setCost(temp->getCost());
                         retrieveNode->getEstimation();//should already match
                         retrieveNode->setParent(curr);
@@ -388,7 +392,7 @@ bool Game::search_Misplace()
                     temp->calculateEuclidHeuristic(t->getGoal()->getBoard()); //give the child an estimation
                     curr->addDownChild(temp);     //add it as the correct child of curr
                     t->addNodeToSeen(temp);     //add it to the hashmap to make it easy to find
-                    cout<<"\tadd down: "<<endl<<temp<<"Estimate: "<<temp->getEstimation()<<"\t Cost" <<temp->getCost()<<endl;     //print to make it easy to follow
+                    // cout<<"\tadd down: "<<endl<<temp<<"Estimate: "<<temp->getEstimation()<<"\t Cost" <<temp->getCost()<<endl;     //print to make it easy to follow
                     t->increaseNodeSeen();      //document that we found a new board combination
                     frontier.push(temp);        //add it to frontier
 
@@ -400,7 +404,7 @@ bool Game::search_Misplace()
                     Node * retrieveNode = t->returnNodeByHash(temp->createHash());
                     if(retrieveNode->getCost() > temp->getCost())
                     {
-                        cout<<"Should not run unless more optimal path was found"<<endl;
+                        cout<<"Should not run unless more optimal path was found"<<temp->createHash()<<endl;
                         retrieveNode->setCost(temp->getCost());
                         retrieveNode->getEstimation();//should already match
                         retrieveNode->setParent(curr);
@@ -417,7 +421,7 @@ bool Game::search_Misplace()
                     temp->calculateTileHeuristic(t->getGoal()->getBoard()); //give the child an estimation
                     curr->addLeftChild(temp);     //add it as the correct child of curr
                     t->addNodeToSeen(temp);     //add it to the hashmap to make it easy to find
-                    cout<<"\tadd left: "<<endl<<temp<<"Estimate: "<<temp->getEstimation()<<"\t Cost" <<temp->getCost()<<endl;     //print to make it easy to follow
+                    // cout<<"\tadd left: "<<endl<<temp<<"Estimate: "<<temp->getEstimation()<<"\t Cost" <<temp->getCost()<<endl;     //print to make it easy to follow
                     t->increaseNodeSeen();      //document that we found a new board combination
                     frontier.push(temp);        //add it to frontier
                 }
@@ -427,7 +431,7 @@ bool Game::search_Misplace()
                     Node * retrieveNode = t->returnNodeByHash(temp->createHash());
                     if(retrieveNode->getCost() > temp->getCost())
                     {
-                        cout<<"Should not run unless more optimal path was found"<<endl;
+                        cout<<"Should not run unless more optimal path was found"<<temp->createHash()<<endl;
                         retrieveNode->setCost(temp->getCost());
                         retrieveNode->getEstimation();//should already match
                         retrieveNode->setParent(curr);
@@ -444,7 +448,7 @@ bool Game::search_Misplace()
                     temp->calculateEuclidHeuristic(t->getGoal()->getBoard()); //give the child an estimation
                     curr->addRightChild(temp);     //add it as the correct child of curr
                     t->addNodeToSeen(temp);     //add it to the hashmap to make it easy to find
-                    cout<<"\tadd right: "<<endl<<temp<<"Estimate: "<<temp->getEstimation()<<"\t Cost" <<temp->getCost()<<endl;     //print to make it easy to follow
+                    // cout<<"\tadd right: "<<endl<<temp<<"Estimate: "<<temp->getEstimation()<<"\t Cost" <<temp->getCost()<<endl;     //print to make it easy to follow
                     t->increaseNodeSeen();      //document that we found a new board combination
                     frontier.push(temp);        //add it to frontier
                 }
@@ -454,7 +458,7 @@ bool Game::search_Misplace()
                     Node * retrieveNode = t->returnNodeByHash(temp->createHash());
                     if(retrieveNode->getCost() > temp->getCost())
                     {
-                        cout<<"Should not run unless more optimal path was found"<<endl;
+                        cout<<"Should not run unless more optimal path was found\t "<<temp->createHash()<<endl;
                         retrieveNode->setCost(temp->getCost());
                         retrieveNode->getEstimation();//should already match
                         retrieveNode->setParent(curr);
@@ -468,6 +472,8 @@ bool Game::search_Misplace()
             
     }
     cout<<"frontier is empty"<<endl;
+    t->stopTime();
+    t->printStats();
     return false;
 }
 

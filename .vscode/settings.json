@@ -11,7 +11,9 @@
         "vector": "cpp",
         "*.tcc": "cpp",
         "stdexcept": "cpp",
-        "initializer_list": "cpp"
+        "initializer_list": "cpp",
+        "functional": "cpp",
+        "random": "cpp"
     },
     "C_Cpp.default.compilerPath": "C:\\msys64\\mingw64\\bin\\gcc.exe"
 }
