@@ -17,8 +17,7 @@ class Node
         int zero_row = -1;
         int zero_col = -1;
         int cost = -1;
-        double euclid_heuristic = -1;
-        int tile_heuristic = -1;
+        double costAndHeuristic = -1;
 
         validMoves lastMove;
 
@@ -43,7 +42,7 @@ class Node
     //checks if a board is alreadyin a vector of boards
         bool in(vector<Node*>);
     //checks if a board is alreadyin a queue of boards 
-        bool in(queue<Node*>);
+        bool in(priority_queue<Node*>);
         void printNode();
 
     //returns a new node that would be create by taking that move, nullptr if ( its impossible or returns to parent )
@@ -62,6 +61,7 @@ class Node
 
     //returns parent of the current node
         Node* getParent() {return this->parent;}
+        void setParent(Node * n) {this->parent = n;}
     // create unique id for each board configuration
         string createHash();
     //returns the board stored in the root
@@ -71,23 +71,25 @@ class Node
         void printLastMove();
     //returns move used to reach that board, stops at root
         validMoves getLastMove();
+        void setLastMove(validMoves);
 
     // sets cost of node
         void setCost(int newCost) { cost = newCost; }
     // get cost of node;
         int getCost() {return cost;}
 
-
-    // set heuristics
-    void setEuclidHeuristic(double d) {euclid_heuristic = d;}
-    void setTileHeuristic(double d) {tile_heuristic = d;}
+    // return and set function: h(x) + g(x)
+    void setEstimation(double d) {costAndHeuristic = d + cost; }
     // get heuristics
-    double getEuclidHeuristic() { return euclid_heuristic; }
-    double getTileHeurisitic() { return tile_heuristic; }
+    double getEstimation() { return costAndHeuristic; }
 
+    void calculateEuclidHeuristic(vector<vector<int>>);
+    void calculateTileHeuristic(vector<vector<int>>);
 
     //prints all nodes data
-        void printAllNodeData();
+    void printAllNodeData();
+
+
 
     //override << to make it easier to jsut print the boards off node
         friend ostream& operator<<(ostream& out, const Node* n)
@@ -115,12 +117,17 @@ class Node
         return out;
     }//end pf << overload
 
-
-    
-
+    //override the < operator so that it marks nodes with the lease cost higher up in the priority quue
+    // friend bool operator<(const Node* lhs, const Node* rhs)
+    // {
+    //     return (lhs->costAndHeuristic > rhs.->costAndHeuristic);
+    // }
         
 
 };//end of node class
+
+    
+    
 
         
 #endif

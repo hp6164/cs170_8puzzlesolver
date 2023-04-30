@@ -1,4 +1,5 @@
 #include "node.h"
+#include <math.h>
 
 using namespace std;
 
@@ -14,6 +15,7 @@ Node::Node(vector<vector<int>> initTable, Node* p, validMoves last)//use this to
         cost = p->getCost()+1;
 
         lastMove = last;
+        costAndHeuristic = -1;
 
         board = initTable;
         for(int i = 0; i < initTable.size(); i++)
@@ -52,6 +54,7 @@ Node::Node(vector<vector<int>> initTable)// use this to make root node
         cost = 0;
 
         lastMove = START;
+        costAndHeuristic= -1;
 
         board = initTable;
         for(int i = 0; i < initTable.size(); i++)
@@ -93,6 +96,7 @@ Node::Node()//default input
     zero_col = 1;
     zero_row = 0;
     cost = 0;
+    costAndHeuristic = -1;
 }
 
 Node::Node(Node* temp)//Will make a copy of the board and nothing else 
@@ -106,6 +110,7 @@ Node::Node(Node* temp)//Will make a copy of the board and nothing else
     zero_col = temp->zero_col;
     zero_row = temp->zero_row;
     cost = -1;
+    costAndHeuristic = -1;
 }//end of copy Consturctor
 
 Node::~Node()
@@ -333,6 +338,61 @@ Node* Node::Right()
     }//end of catch
 }//end of Right
 
+void Node::calculateEuclidHeuristic(vector<vector<int>> b)
+{
+    //could defenitely be made more optimal/efficient
+    double heuristic = 0;
+    for(int i = 0; i < board.size(); i++)//for each value
+    {
+        for( int j = 0; j < board.at(i).size(); j++)
+        {
+            if(board.at(i).at(j) != b.at(i).at(j) && board.at(i).at(j) != 0)
+            {
+                for(int k = 0; k < b.size(); k++)//find where it should be
+                {
+                    for( int l = 0; l < b.at(i).size(); l++)
+                    {
+                        if(b.at(k).at(l) == board.at(i).at(j))  
+                        {
+                            // cout<<"checking row "<<i<<", "<<j<<endl;
+                            heuristic += ( sqrt(pow(i-k, 2)+pow(j-l,2)) );
+                        }
+                    }
+                }
+            }
+        }
+    }
+    costAndHeuristic = (cost + heuristic);
+}
+
+void Node::calculateTileHeuristic(vector<vector<int>> b)
+{
+    //could defenitely be made more optimal/efficient
+    double heuristic = 0;
+    for(int i = 0; i < board.size(); i++)//for each value
+    {
+        for( int j = 0; j < board.at(i).size(); j++)
+        {
+            if(board.at(i).at(j) != b.at(i).at(j) && board.at(i).at(j) != 0)
+            {
+                for(int k = 0; k < b.size(); k++)//find where it should be
+                {
+                    for( int l = 0; l < b.at(i).size(); l++)
+                    {
+                        if(b.at(k).at(l) == board.at(i).at(j))  
+                        {
+                            // cout<<"checking row "<<i<<", "<<j<<endl;
+                            heuristic += abs(k-i);
+                            heuristic += abs(l-j);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    costAndHeuristic = (cost + heuristic);
+}
+
 bool Node::in(vector<Node*> input)
 {
     for(Node* n : input)
@@ -346,11 +406,11 @@ bool Node::in(vector<Node*> input)
     return false;
 }
 
-bool Node::in(queue<Node*> input)
+bool Node::in(priority_queue<Node*> input)
 {
     while(!input.empty())
     {
-        if( this == input.front())
+        if( this == input.top())
         {
             return true;
             break;
@@ -363,6 +423,10 @@ bool Node::in(queue<Node*> input)
 validMoves Node::getLastMove()
 {
     return this->lastMove;
+}
+void Node::setLastMove(validMoves v)
+{
+    lastMove = v;
 }
 
 string Node::createHash()
