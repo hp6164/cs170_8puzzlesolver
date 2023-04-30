@@ -20,7 +20,7 @@ int main()
     int option = 0, temp = 0;
 
     //Puzzle solver
-    int solve = 8;
+    int solve = 15;
     int rows = sqrt((solve + 1));
     for(int i = 0; i <= solve; i++)
     {

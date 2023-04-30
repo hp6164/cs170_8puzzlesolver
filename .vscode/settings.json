@@ -4,6 +4,13 @@
         "*.ipynb": "python",
         "iostream": "cpp",
         "ostream": "cpp",
-        "iosfwd": "cpp"
-    }
+        "iosfwd": "cpp",
+        "new": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "vector": "cpp",
+        "*.tcc": "cpp",
+        "stdexcept": "cpp"
+    },
+    "C_Cpp.default.compilerPath": "C:\\msys64\\mingw64\\bin\\gcc.exe"
 }

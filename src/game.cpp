@@ -12,7 +12,19 @@ Game::Game()
 Game::Game(vector<vector<int>> start)
 {
     initial = new Node(start);
-    goal  = new Node({ {1, 2, 3}, {4, 5, 6}, {7, 8, 0} } ); //#TODO fix it so it automatically creates a goal state based on the initial board
+    // goal  = new Node({ {1, 2, 3}, {4, 5, 6}, {7, 8, 0} } ); //#TODO fix it so it automatically creates a goal state based on the initial board
+    vector<vector<int>> goalBoard = initial->getBoard();
+    int tile = 1;
+    for(int i = 0; i < goalBoard.size(); i++)
+    {
+        for(int j = 0; j < goalBoard.at(i).size(); j++)
+        {
+            goalBoard.at(i).at(j) = tile;
+            tile++;
+        }
+    }
+    goalBoard.at(goalBoard.size()-1).at(goalBoard.at(0).size()-1) = 0;
+    goal = new Node(goalBoard);
 }//end of constructor
 
 Game::Game(Node * start, Node * end)
