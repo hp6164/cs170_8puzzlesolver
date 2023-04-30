@@ -17,6 +17,7 @@ class Node
         int zero_row = -1;
         int zero_col = -1;
         int cost = -1;
+
         validMoves lastMove;
 
         Node* rightMove;
@@ -30,14 +31,6 @@ class Node
         Node(vector<vector<int>>, Node*, validMoves);//will be used to create a child and will save the move used
         Node(vector<vector<int>>); //will be used to make the root node
         Node(Node *);//copy constuctor that create soft copy of the node (only the table, no parent, child or move data)
-        
-        // bool operator==(const Node rhs) 
-        // {
-        //     cout<<"test test"<<endl;
-        //     if(board == rhs.board)
-        //         return true;
-        //     return false;
-        // }
 
         //checks if operators are valid given te board
         bool tryUp();
@@ -51,11 +44,20 @@ class Node
         bool in(queue<Node*>);
         void printNode();
 
-    //creates the child using that operation
+    //returns a new node that would be create by taking that move, nullptr if ( its impossible or returns to parent )
         Node* Up();
         Node* Down();
         Node* Right();
         Node* Left();
+
+
+
+//adds the 
+        void addUpChild(Node *n) {upMove = n; }
+        void addDownChild(Node *n) {downMove = n; }
+        void addRightChild(Node *n) {rightMove = n; }
+        void addLeftChild(Node *n ) {leftMove = n; }
+
     //returns parent of the current node
         Node* getParent() {return this->parent;}
     // create unique id for each board configuration
@@ -69,9 +71,13 @@ class Node
         validMoves getLastMove();
 
     // sets cost of node
-        void setCost(int c) {cost = c;}
+        void setCost(int newCost) { cost = newCost; }
     // get cost of node;
         int getCost() {return cost;}
+
+
+    //prints all nodes data
+        void printAllNodeData();
 
     //override << to make it easier to jsut print the boards off node
         friend ostream& operator<<(ostream& out, const Node* n)
@@ -98,6 +104,7 @@ class Node
         out<<endl;
         return out;
     }//end pf << overload
+
 
     
 

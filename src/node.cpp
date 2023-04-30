@@ -11,6 +11,7 @@ Node::Node(vector<vector<int>> initTable, Node* p, validMoves last)//use this to
         downMove = nullptr;
         rightMove = nullptr;
         downMove = nullptr;
+        cost = p->getCost()+1;
 
         lastMove = last;
 
@@ -91,9 +92,10 @@ Node::Node()//default input
               {7, 5, 8} };
     zero_col = 1;
     zero_row = 0;
+    cost = 0;
 }
 
-Node::Node(Node* temp)//Will make a copy of the board and nothing else
+Node::Node(Node* temp)//Will make a copy of the board and nothing else 
 {
     parent = nullptr;
     upMove = nullptr;
@@ -103,6 +105,7 @@ Node::Node(Node* temp)//Will make a copy of the board and nothing else
     board = temp->board;
     zero_col = temp->zero_col;
     zero_row = temp->zero_row;
+    cost = -1;
 }//end of copy Consturctor
 
 Node::~Node()
@@ -111,7 +114,8 @@ Node::~Node()
     delete upMove;
     delete downMove;
     delete rightMove;
-    delete downMove;
+    delete leftMove;
+    
 }
 
 
@@ -215,16 +219,17 @@ Node* Node::Up()
     {
         if(zero_row != 0  && lastMove != DOWN)
         {
-            upMove = new Node(this);
-            upMove->board.at(zero_row).at(zero_col) = upMove->board.at(zero_row-1).at(zero_col);
-            upMove->board.at(zero_row-1).at(zero_col) = 0; 
+            Node* temp = new Node(this);
+            temp->board.at(zero_row).at(zero_col) = temp->board.at(zero_row-1).at(zero_col);
+            temp->board.at(zero_row-1).at(zero_col) = 0; 
 
-            upMove->zero_row--;
+            temp->zero_row--;
 
-            upMove->parent = this;
-            upMove->lastMove = UP;
+            temp->parent = this;
+            temp->cost = temp->parent->getCost()+1;
+            temp->lastMove = UP;
             
-            return upMove;
+            return temp;
         }
         else
         {
@@ -233,7 +238,7 @@ Node* Node::Up()
     }//end of try
     catch(const std::exception& e)
     {
-        std::cerr << e.what() << '\n';
+        // std::cerr << e.what() << '\n';
         return nullptr;
     }//end of catch
 }//end of up
@@ -244,15 +249,16 @@ Node* Node::Down()
     {
         if(zero_row != board.size()-1 && lastMove != UP)
         {
-            downMove = new Node(this);
-            downMove->board.at(zero_row).at(zero_col) = downMove->board.at(zero_row+1).at(zero_col);
-            downMove->board.at(zero_row+1).at(zero_col) = 0; 
+            Node* temp = new Node(this);
+            temp->board.at(zero_row).at(zero_col) = temp->board.at(zero_row+1).at(zero_col);
+            temp->board.at(zero_row+1).at(zero_col) = 0; 
 
-            downMove->zero_row++;
+            temp->zero_row++;
 
-            downMove->parent = this;
-            downMove->lastMove = DOWN;
-            return downMove;
+            temp->parent = this;
+            temp->cost = temp->parent->getCost()+1;
+            temp->lastMove = DOWN;
+            return temp;
         }
         else
         {
@@ -261,7 +267,7 @@ Node* Node::Down()
     }//end of try
     catch(const std::exception& e)
     {
-        std::cerr << e.what() << '\n';
+        // std::cerr << e.what() << '\n';
         return nullptr;
     }//end of catch
 }//end of down
@@ -273,17 +279,18 @@ Node* Node::Left()
     {
         if(zero_col != 0 && lastMove != RIGHT)
         {
-            leftMove = new Node(this);
-            leftMove->board.at(zero_row).at(zero_col) = leftMove->board.at(zero_row).at(zero_col-1);
-            leftMove->board.at(zero_row).at(zero_col-1) = 0; 
+            Node* temp = new Node(this);
+            temp->board.at(zero_row).at(zero_col) = temp->board.at(zero_row).at(zero_col-1);
+            temp->board.at(zero_row).at(zero_col-1) = 0; 
 
-            leftMove->zero_col--;
+            temp->zero_col--;
 
-            leftMove->parent = this;
-            leftMove->lastMove = LEFT;
+            temp->parent = this;
+            temp->cost = temp->parent->getCost()+1;
+            temp->lastMove = LEFT;
 
 
-            return leftMove;
+            return temp;
         }
         else
         {
@@ -292,7 +299,7 @@ Node* Node::Left()
     }//end of try
     catch(const std::exception& e)
     {
-        std::cerr << e.what() << '\n';
+        // std::cerr << e.what() << '\n';
         return nullptr;
     }//end of catch
 }//end of left
@@ -303,15 +310,16 @@ Node* Node::Right()
     {
         if(zero_col !=  board.at(0).size()-1 && lastMove != LEFT)
         {
-            rightMove = new Node(this);
-            rightMove->board.at(zero_row).at(zero_col) = rightMove->board.at(zero_row).at(zero_col+1);
-            rightMove->board.at(zero_row).at(zero_col+1) = 0; 
+            Node* temp = new Node(this);
+            temp->board.at(zero_row).at(zero_col) = temp->board.at(zero_row).at(zero_col+1);
+            temp->board.at(zero_row).at(zero_col+1) = 0; 
 
-            rightMove->zero_col++;
+            temp->zero_col++;
 
-            rightMove->parent = this;
-            rightMove->lastMove = RIGHT;
-            return rightMove;
+            temp->parent = this;
+            temp->cost = temp->parent->getCost()+1;
+            temp->lastMove = RIGHT;
+            return temp;
         }
         else
         {
@@ -320,7 +328,7 @@ Node* Node::Right()
     }//end of try
     catch(const std::exception& e)
     {
-        std::cerr << e.what() << '\n';
+        // std::cerr << e.what() << '\n';
         return nullptr;
     }//end of catch
 }//end of Right
@@ -364,7 +372,7 @@ string Node::createHash()
     {
         for(int i : v)
         {
-            hash.push_back(i);
+            hash.push_back(to_string(i).at(0));
         }
     }
     return hash;
@@ -392,3 +400,27 @@ void Node::printLastMove()
     }//end of outer loop
     cout<<endl;
 }//end of print last move
+
+
+void Node::printAllNodeData()
+{
+    cout<<"Node Data"<<endl;
+    cout<<"Board: "<<endl;
+    cout<<this<<endl;
+    cout<<"Zero at: "<<zero_row<<", "<<zero_col<<endl;
+    cout<<"Cost: "<<cost<<endl;
+    cout<<"Children: "<<endl;
+    if(rightMove != nullptr)
+        cout<<"\t Has Right Child"<<endl;
+    if(leftMove != nullptr)
+        cout<<"\t Has Left Child"<<endl;
+    if(upMove != nullptr)
+        cout<<"\t Has Up Child"<<endl;
+    if(downMove != nullptr)
+        cout<<"\t Has Down Child"<<endl;
+    cout<<"Parent"<<endl;
+    if(getParent() == nullptr)
+        cout<<"None"<<endl;
+    else
+        cout<<getParent();
+}
