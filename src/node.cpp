@@ -226,7 +226,7 @@ Node* Node::Up()
         }
         else
         {
-            throw invalid_argument("Error in tryUp");
+            throw invalid_argument("Error in UP");
         }
     }//end of try
     catch(const std::exception& e)
@@ -254,7 +254,7 @@ Node* Node::Down()
         }
         else
         {
-            throw invalid_argument("Error in tryDown");
+            throw invalid_argument("Error in DOWN");
         }
     }//end of try
     catch(const std::exception& e)
@@ -285,7 +285,7 @@ Node* Node::Left()
         }
         else
         {
-            throw invalid_argument("Error in tryLeft");
+            throw invalid_argument("Error in LEFT");
         }
     }//end of try
     catch(const std::exception& e)
@@ -313,7 +313,7 @@ Node* Node::Right()
         }
         else
         {
-            throw invalid_argument("Error in tryRight");
+            throw invalid_argument("Error in RIGHT");
         }
     }//end of try
     catch(const std::exception& e)
@@ -353,6 +353,19 @@ bool Node::in(queue<Node*> input)
 validMoves Node::getLastMove()
 {
     return this->lastMove;
+}
+
+string Node::createHash()
+{
+    string hash = "";
+    for (vector<char> v : board)
+    {
+        for(char c : v)
+        {
+            hash.push_back(c);
+        }
+    }
+    return hash;
 }
 
 void Node::printLastMove()

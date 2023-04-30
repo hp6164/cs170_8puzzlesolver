@@ -13,7 +13,7 @@ class Node
 {
     private:
         Node* parent;
-        vector<vector<int>> board;
+        vector<vector<char>> board;
         int zero_row = -1;
         int zero_col = -1;
 
@@ -24,11 +24,12 @@ class Node
         Node* upMove;
         Node* downMove;
     public:
-        Node();
-        ~Node();
-        Node(vector<vector<int>>, Node*, validMoves);
-        Node(vector<vector<int>>);
-        Node(Node *);//copy constuctor
+    //Constructors 
+        Node(); //default
+        ~Node();//destrutro
+        Node(vector<vector<int>>, Node*, validMoves);//will be used to create a child and will save the move used
+        Node(vector<vector<int>>); //will be used to make the root node
+        Node(Node *);//copy constuctor that create soft copy of the node (only the table, no parent, child or move data)
         
         // bool operator==(const Node rhs) 
         // {
@@ -38,28 +39,36 @@ class Node
         //     return false;
         // }
 
-        //operators
+        //checks if operators are valid given te board
         bool tryUp();
         bool tryDown();
         bool tryRight();
         bool tryLeft();
 
+    //checks if a board is alreadyin a vector of boards
         bool in(vector<Node*>);
+    //checks if a board is alreadyin a queue of boards 
         bool in(queue<Node*>);
         void printNode();
 
+    //creates the child using that operation
         Node* Up();
         Node* Down();
         Node* Right();
         Node* Left();
-
+    //returns parent of the current node
         Node* getParent() {return this->parent;}
-
-        validMoves getLastMove();
+    // create unique id for each board configuration
+        string createHash();
+    //returns the board stored in the root
         vector<vector<int>> getBoard() {return board;};
 
-        
+    //prints the move last used
         void printLastMove();
+    //returns move used to reach that board, stops at root
+        validMoves getLastMove();
+
+    //override << to make it easier to jsut print the boards off node
         friend ostream& operator<<(ostream& out, const Node* n)
         {
             // cout<<"test teste "<<endl;
