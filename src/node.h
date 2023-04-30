@@ -13,10 +13,10 @@ class Node
 {
     private:
         Node* parent;
-        vector<vector<char>> board;
+        vector<vector<int>> board;
         int zero_row = -1;
         int zero_col = -1;
-
+        int cost = -1;
         validMoves lastMove;
 
         Node* rightMove;
@@ -68,6 +68,11 @@ class Node
     //returns move used to reach that board, stops at root
         validMoves getLastMove();
 
+    // sets cost of node
+        void setCost(int c) {cost = c;}
+    // get cost of node;
+        int getCost() {return cost;}
+
     //override << to make it easier to jsut print the boards off node
         friend ostream& operator<<(ostream& out, const Node* n)
         {
@@ -93,6 +98,8 @@ class Node
         out<<endl;
         return out;
     }//end pf << overload
+
+    
 
         
 

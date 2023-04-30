@@ -48,6 +48,8 @@ Node::Node(vector<vector<int>> initTable)// use this to make root node
         rightMove = nullptr;
         downMove = nullptr;
 
+        cost = 0;
+
         lastMove = START;
 
         board = initTable;
@@ -358,11 +360,11 @@ validMoves Node::getLastMove()
 string Node::createHash()
 {
     string hash = "";
-    for (vector<char> v : board)
+    for (vector<int> v : board)
     {
-        for(char c : v)
+        for(int i : v)
         {
-            hash.push_back(c);
+            hash.push_back(i);
         }
     }
     return hash;
