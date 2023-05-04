@@ -20,7 +20,7 @@ int main()
     int option = 0, temp = 0;
 
     //Puzzle solver
-    int solve = 15;
+    int solve = 8;
     int rows = sqrt((solve + 1));
     for(int i = 0; i <= solve; i++)
     {
@@ -100,8 +100,10 @@ int main()
                             g->search_UCS();
                             break;
                         case 2:
+                            g->search_Misplace();
                             break;
                         case 3:
+                            g->search_Euclidean();
                             break;
                     }
                 }
