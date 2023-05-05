@@ -45,6 +45,7 @@ int main()
                     cout << "1  Unitform Cost Search" << endl;
                     cout << "2  A* with the Misplaced Tile heuristic" << endl;
                     cout << "3  A* with the Euclidean distance heuristic" << endl;
+                    cout << "Hi";
                     cin>> temp;
                     while (temp < 1 || temp > 3)
                     {
@@ -61,8 +62,10 @@ int main()
                             g->search_UCS();
                             break;
                         case 2:
+                            g->search_Misplace();
                             break;
                         case 3:
+                            g->search_Euclidean();
                             break;
                     }
 
