@@ -8,6 +8,7 @@ ADD_EXECUTABLE(solver
     main.cpp src/game.cpp src/tree.cpp src/node.cpp
 )
 
+
 ADD_EXECUTABLE(test
     unittest.cpp src/game.cpp src/tree.cpp src/node.cpp
 )

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "src\game.h"
+#include "src/game.h"
 // #include "src\node.h"
 #include <math.h>
 #include <cmath>
