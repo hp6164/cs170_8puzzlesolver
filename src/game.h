@@ -12,6 +12,8 @@ class Game
         Node* initial;
         Node* goal;
 
+        vector<string> impossibleStates;
+
         // Tree* tree_ucs;
         // Tree* tree_euclidian;
         // Tree* tree_tile;

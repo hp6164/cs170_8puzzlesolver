@@ -26,6 +26,49 @@ Game::Game(vector<vector<int>> start)
     }
     goalBoard.at(goalBoard.size()-1).at(goalBoard.at(0).size()-1) = 0;
     goal = new Node(goalBoard);
+
+    //autogenerate impossible states from the goal
+    vector<vector<int>> impossible = goal->getBoard();
+    Node* im;
+    int tempHolder;
+    if(goalBoard.size() > 2)//ADD TWO EXTRA IMPOSSIBLE STATES IF LARGER THAN A 2X2
+    {
+        tempHolder = impossible.at(impossible.size()-1).at(impossible.at(0).size()-2);
+        impossible.at(impossible.size()-1).at(impossible.at(0).size()-2) = impossible.at(impossible.size()-1).at(impossible.at(0).size()-3);
+        impossible.at(impossible.size()-1).at(impossible.at(0).size()-3) = tempHolder;
+
+        im = new Node(impossible);
+        impossibleStates.push_back(im->createHash());
+        delete im;
+
+        impossible = goal->getBoard();
+        
+        tempHolder = impossible.at(impossible.size()-2).at(impossible.at(0).size()-1);
+        impossible.at(impossible.size()-2).at(impossible.at(0).size()-1) = impossible.at(impossible.size()-3).at(impossible.at(0).size()-1);
+        impossible.at(impossible.size()-3).at(impossible.at(0).size()-1) = tempHolder;
+
+        im = new Node(impossible);
+        impossibleStates.push_back(im->createHash());
+    }
+    // delete im;
+    impossible = goal->getBoard();
+    tempHolder = impossible.at(impossible.size()-1).at(impossible.at(0).size()-2);
+    impossible.at(impossible.size()-1).at(impossible.at(0).size()-2) = impossible.at(impossible.size()-2).at(impossible.at(0).size()-2);
+    impossible.at(impossible.size()-2).at(impossible.at(0).size()-2) = tempHolder;
+    im = new Node(impossible);
+    impossibleStates.push_back(im->createHash());
+    // delete im;
+
+
+    impossible = goal->getBoard();
+    tempHolder = impossible.at(impossible.size()-2).at(impossible.at(0).size()-1);
+    impossible.at(impossible.size()-2).at(impossible.at(0).size()-1) = impossible.at(impossible.size()-2).at(impossible.at(0).size()-2);
+    impossible.at(impossible.size()-2).at(impossible.at(0).size()-2) = tempHolder;
+    im = new Node(impossible);
+        // cout<<im->createHash()<<endl;
+    impossibleStates.push_back(im->createHash());
+    // delete im;
+
 }//end of constructor
 
 Game::Game(Node * start, Node * end)
@@ -51,6 +94,13 @@ bool Game::search_UCS()
         // curr->printNode();
         cout<<"Current Hash: "<<curr->createHash()<<"\t cost: "<<curr->getCost()<<endl;
         
+        if(curr->checkImpossible(impossibleStates))//check if current state matches an impossible
+        {
+            cout<<"Impossible State matched, cannot be solved"<<endl;
+            t->stopTime();
+            t->printStats();
+            return false;
+        }
         
         if(curr->getBoard() == goal->getBoard())//if curr is equal to goal that means we have expanded up to our goal, and can conclude goal reached optimally 
         {
@@ -166,8 +216,17 @@ bool Game::search_Euclidean()
     while(!frontier.empty())//if frontier is empty no solution was found, otherwise continue searching for solution
     {        
         curr = frontier.top();// make curr the next node in the frontier
-        cout<<"Expanding Node with Hash: "<<curr->createHash()<<"\t Estimate: "<<curr->getEstimation()<<"\t g(n): "<<curr->getCost()<<"\th(n): "<<curr->getEstimation()-curr->getCost()<<endl;
+        double heuristic = curr->getEstimation()-curr->getCost();
+        cout<<"Expanding Node with Hash: "<<curr->createHash()<<"\t Estimate: "<<curr->getEstimation()<<"\t g(n): "<<curr->getCost()<<"\th(n): "<< heuristic <<endl;
         
+        if(heuristic < 2.5 && curr->checkImpossible(impossibleStates))//compare to see if the current node matches an impossible one
+        {
+            cout<<"Impossible State matched, cannot be solved"<<endl;
+            t->stopTime();
+            t->printStats();
+            return false;
+        }
+
         if(curr->getBoard() == goal->getBoard())//if curr is equal to goal that means we have expanded up to our goal, and can conclude goal reached optimally 
         {
             cout<<endl<<endl<<"Goal Reached"<<endl;
@@ -330,8 +389,18 @@ bool Game::search_Misplace()
     while(!frontier.empty())//if frontier is empty no solution was found, otherwise continue searching for solution
     {        
         curr = frontier.top();// make curr the next node in the frontier
-        cout<<"Expanding Node with Hash: "<<curr->createHash()<<"\t Estimate: "<<curr->getEstimation()<<"\t g(n): "<<curr->getCost()<<"\th(n): "<<curr->getEstimation()-curr->getCost()<<endl;
+        double heuristic = curr->getEstimation()-curr->getCost();
+        cout<<"Expanding Node with Hash: "<<curr->createHash()<<"\t Estimate: "<<curr->getEstimation()<<"\t g(n): "<<curr->getCost()<<"\th(n): "<< heuristic <<endl;
         
+        if(heuristic < 2.5 && curr->checkImpossible(impossibleStates))//compare to see if the current node matches an impossible one
+        {
+            cout<<"Impossible State matched, cannot be solved"<<endl;
+            t->stopTime();
+            t->printStats();
+            return false;
+        }
+        
+
         if(curr->getBoard() == goal->getBoard())//if curr is equal to goal that means we have expanded up to our goal, and can conclude goal reached optimally 
         {
             cout<<endl<<endl<<"Goal Reached"<<endl;
@@ -361,7 +430,7 @@ bool Game::search_Misplace()
             {   
                 if(!t->nodeAlreadySeen(temp))//check if this board combination has not been seen
                 {                           //if it hasnt:
-                    temp->calculateEuclidHeuristic(t->getGoal()->getBoard()); //give the child an estimation
+                    temp->calculateTileHeuristic(t->getGoal()->getBoard()); //give the child an estimation
                     curr->addUpChild(temp);     //add it as the correct child of curr
                     t->addNodeToSeen(temp);     //add it to the hashmap to make it easy to find
                     // cout<<"\t add up: "<<endl<<temp<<"Estimate: "<<temp->getEstimation()<<"\t Cost" <<temp->getCost()<<endl;
@@ -389,7 +458,7 @@ bool Game::search_Misplace()
             {   
                 if(!t->nodeAlreadySeen(temp) )//check if this board combination has not been seen
                 {                           //if it hasnt:
-                    temp->calculateEuclidHeuristic(t->getGoal()->getBoard()); //give the child an estimation
+                    temp->calculateTileHeuristic(t->getGoal()->getBoard()); //give the child an estimation
                     curr->addDownChild(temp);     //add it as the correct child of curr
                     t->addNodeToSeen(temp);     //add it to the hashmap to make it easy to find
                     // cout<<"\tadd down: "<<endl<<temp<<"Estimate: "<<temp->getEstimation()<<"\t Cost" <<temp->getCost()<<endl;     //print to make it easy to follow
@@ -445,7 +514,7 @@ bool Game::search_Misplace()
             {   
                 if(!t->nodeAlreadySeen(temp) )//check if this board combination has not been seen
                 {                           //if it hasnt:
-                    temp->calculateEuclidHeuristic(t->getGoal()->getBoard()); //give the child an estimation
+                    temp->calculateTileHeuristic(t->getGoal()->getBoard()); //give the child an estimation
                     curr->addRightChild(temp);     //add it as the correct child of curr
                     t->addNodeToSeen(temp);     //add it to the hashmap to make it easy to find
                     // cout<<"\tadd right: "<<endl<<temp<<"Estimate: "<<temp->getEstimation()<<"\t Cost" <<temp->getCost()<<endl;     //print to make it easy to follow

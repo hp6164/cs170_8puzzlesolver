@@ -78,8 +78,11 @@ class Node
     // get cost of node;
         int getCost() {return cost;}
 
+    //checks against a small list of state deemed impossible
+        bool checkImpossible(const vector<string>&);
+
     // return and set function: h(x) + g(x)
-    void setEstimation(double d) {costAndHeuristic = d + cost; }
+    // void setEstimation(double d) {costAndHeuristic = d + cost; }
     // get heuristics
     double getEstimation() { return costAndHeuristic; }
 
