@@ -338,7 +338,7 @@ Node* Node::Right()
     }//end of catch
 }//end of Right
 
-void Node::calculateEuclidHeuristic(vector<vector<int>> b)
+void Node::calculateEuclidHeuristic(vector<vector<int>> goal)
 {
     //could defenitely be made more optimal/efficient
     double heuristic = 0;
@@ -346,13 +346,13 @@ void Node::calculateEuclidHeuristic(vector<vector<int>> b)
     {
         for( int j = 0; j < board.at(i).size(); j++)
         {
-            if(board.at(i).at(j) != b.at(i).at(j) && board.at(i).at(j) != 0)
+            if(board.at(i).at(j) != goal.at(i).at(j) && board.at(i).at(j) != 0)
             {
-                for(int k = 0; k < b.size(); k++)//find where it should be
+                for(int k = 0; k < goal.size(); k++)//find where it should be
                 {
-                    for( int l = 0; l < b.at(i).size(); l++)
+                    for( int l = 0; l < goal.at(i).size(); l++)
                     {
-                        if(b.at(k).at(l) == board.at(i).at(j))  
+                        if(goal.at(k).at(l) == board.at(i).at(j))  
                         {
                             // cout<<"checking row "<<i<<", "<<j<<endl;
                             heuristic += ( sqrt(pow(i-k, 2)+pow(j-l,2)) );
@@ -416,6 +416,20 @@ bool Node::in(priority_queue<Node*> input)
             break;
         }
         input.pop();
+    }
+    return false;
+}
+
+bool Node::checkImpossible(const vector<string> &impossibleStates)
+{
+    // string impossibleHashes[10] = {"1.2.3.4.6.5.7.8.0.", 
+    //                                "1.2.3.4.0.6.7.8.5.",
+    //                                 "1.2.3.4.5.6.8.7.0.", ""}; //list of hashes that are impossible, these have low heursitics so ideally the A* algorithms will gravitate torwards them
+    string hash = this->createHash();
+    for(string s : impossibleStates)
+    {
+        if(hash.compare(s) == 0)
+            return true;
     }
     return false;
 }
