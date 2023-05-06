@@ -1,17 +1,34 @@
 #include <iostream>
 #include <vector>
 #include "src\game.h"
-#include "src\node.h"
-// #include <cmath>
+// #include "src\node.h"
+#include <math.h>
+#include <cmath>
 
 using namespace std;
 
 void checkInput(int x);
+vector<int> numberbank;
+vector<vector<int>> table;
+vector<int> row;
+
+void input(int &rows);
+bool Check0andNoDup(int& rows);
+bool findnum(int n);
 void chooseSearch();
+
+int solve = 8;
+int rows = sqrt((solve + 1));
 Game* g;
 
 int main()
 {
+
+    for(int i = 0; i <= solve; i++)
+    {
+        numberbank.push_back(i);
+    } 
+
     int x = 0;
     do
     {
@@ -71,8 +88,22 @@ void checkInput(int in)
         break;
     case 7:
         /* code */
-       cout<<"custom not yet implmented"<<endl;
-       cout<<"";
+            cout << "Enter your puzzle, use a zero to represent the blank" << endl;
+            for (int i = 0; i < rows; i++)
+            {
+                cout << "Enter row " << i << " , use space or tabs between numbers:  "; 
+                input(rows);
+            }
+            if(!Check0andNoDup(rows))
+            {
+                cout << "Error!" << endl;
+            }
+            else
+            {
+                g = new Game(table);
+                chooseSearch();
+            }
+                
         break;
     case 10:
         /* code */
@@ -119,3 +150,61 @@ void chooseSearch()
         break;
     }
 }
+
+
+void input(int& rows)
+{
+    int temp = 0;
+    for(int j = 0; j < rows; j++)
+    {
+        cin >> temp;
+        row.push_back(temp);
+    }
+    table.push_back(row);
+    row.clear();
+}
+
+bool Check0andNoDup(int& rows)
+{
+    bool b = false;
+    bool temp = true;
+    for (int i = 0; i < rows; i++)
+    {
+        for(int j = 0; j < rows; j++)
+        {
+            if(table[i][j] == 0 )
+            {
+                b = true;
+            }
+            temp = findnum(table[i][j]);
+            if (temp == false)
+            {
+                b = false;
+                return b;
+            }
+        }
+    }
+    return b;
+}
+
+bool findnum(int n)
+{
+    int indexfound;
+    bool found = false;
+    for(int i = 0; i < numberbank.size(); i++)
+    {
+        if(numberbank[i] == n)
+        {
+            indexfound = i;
+            found = true;
+            break;   
+        }
+    }
+    if(found == true)
+    {
+        numberbank.erase(numberbank.begin()+indexfound);
+        return found;
+    }
+    return found;
+}
+
