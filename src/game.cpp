@@ -166,7 +166,7 @@ bool Game::search_Euclidean()
     while(!frontier.empty())//if frontier is empty no solution was found, otherwise continue searching for solution
     {        
         curr = frontier.top();// make curr the next node in the frontier
-        cout<<"Current Hash: "<<curr->createHash()<<"\t Estimate: "<<curr->getEstimation()<<"\t cost: "<<curr->getCost()<<endl;
+        cout<<"Expanding Node with Hash: "<<curr->createHash()<<"\t Estimate: "<<curr->getEstimation()<<"\t g(n): "<<curr->getCost()<<"\th(n): "<<curr->getEstimation()-curr->getCost()<<endl;
         
         if(curr->getBoard() == goal->getBoard())//if curr is equal to goal that means we have expanded up to our goal, and can conclude goal reached optimally 
         {
@@ -330,7 +330,7 @@ bool Game::search_Misplace()
     while(!frontier.empty())//if frontier is empty no solution was found, otherwise continue searching for solution
     {        
         curr = frontier.top();// make curr the next node in the frontier
-        cout<<"Current Hash: "<<curr->createHash()<<"\t Estimate: "<<curr->getEstimation()<<"\t cost: "<<curr->getCost()<<endl;
+        cout<<"Expanding Node with Hash: "<<curr->createHash()<<"\t Estimate: "<<curr->getEstimation()<<"\t g(n): "<<curr->getCost()<<"\th(n): "<<curr->getEstimation()-curr->getCost()<<endl;
         
         if(curr->getBoard() == goal->getBoard())//if curr is equal to goal that means we have expanded up to our goal, and can conclude goal reached optimally 
         {
